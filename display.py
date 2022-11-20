@@ -19,6 +19,12 @@ height = user32.GetSystemMetrics(1)
 Display = pg.display.set_mode(screensize, FULLSCREEN)
 Display.fill(WHITE) 
 
+# 글자 설정
+font = pg.font.SysFont("arial", 45, False, False)
+gamemode = font.render("게임 모드 : ", True, BLACK)
+
+Display.blit(gamemode, (100, 100))
+
 # 덱 위치에 그림자 지게 하기
 deck1 = pg.draw.rect(Display, BLACK, (305, 505, 390, 230), 25)
 deck2 = pg.draw.rect(Display, BLACK, (width - (315 + 380), 505, 390, 230), 25)
