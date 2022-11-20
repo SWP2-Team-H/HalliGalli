@@ -2,6 +2,7 @@ import sys
 import pygame as pg
 import ctypes   # 해상도 구하는 모듈
 from pygame.locals import *
+from setting import *
 
 # 기능 시작
 pg.init()
@@ -9,13 +10,6 @@ pg.init()
 # 초당 프레임 단위 설정
 FPS = 30
 FramePerSec = pg.time.Clock()
-
-# 색 설정
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-RED = (255, 0, 0)
-GREEN = (0, 255, 0)
-BLUE = (0, 0, 255)
 
 # 게임 창 설정
 user32 = ctypes.windll.user32
