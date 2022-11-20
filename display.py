@@ -44,8 +44,8 @@ time = font.render("남은 시간 : ", True, BLACK)
 Display.blit(time, (width - 500, height - 150))
 
 # 덱 위치에 그림자 지게 하기
-deck1 = pg.draw.rect(Display, BLACK, (305, 505, 390, 230), 25)
-deck2 = pg.draw.rect(Display, BLACK, (width - (315 + 380), 505, 390, 230), 25)
+deck1 = pg.draw.rect(Display, BLACK, (255, 505, 390, 230), 25)
+deck2 = pg.draw.rect(Display, BLACK, (width - (265 + 380), 505, 390, 230), 25)
 
 # 종
 bell = pg.image.load('src/img/bell.png')
@@ -55,7 +55,7 @@ Display.blit(bell, [(width/2)-100, 520])
 # 좌측 카드 위치 - 이 위치에 카드 튜플이나 리스트로 만들어서 받을 수 있게 해야 할 것 같아요
 banana1 = pg.image.load('src/img/banana1.png')
 banana1 = pg.transform.rotate(banana1, 270)
-Display.blit(banana1, [300, 500])
+Display.blit(banana1, [250, 500])
 
 # 좌측 카드더미 위치
 deck_l = pg.image.load('src/img/back_s.png')
@@ -65,7 +65,7 @@ Display.blit(deck_l, [0, 500])
 # 우측 카드 위치 - 이 위치에 카드 튜플이나 리스트로 만들어서 받을 수 있게 해야 할 것 같아요
 kiwi3 = pg.image.load('src/img/kiwi3.png')
 kiwi3 = pg.transform.rotate(kiwi3, 90)
-Display.blit(kiwi3, [width - (300 + 380) , 500])
+Display.blit(kiwi3, [width - (250 + 380) , 500])
 
 # 좌측 카드더미 위치
 deck_r = pg.image.load('src/img/back_s.png')
