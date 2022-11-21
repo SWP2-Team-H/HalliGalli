@@ -33,7 +33,7 @@ def hg_check():
     return 0  # False
 
 
-fruit = ['바나나', '딸기', '블루베리', '골드키위']  # 과일 종류
+fruit = ['banana', 'strawberry', 'blueberry', 'goldkiwi']  # 과일 종류
 card_count = [5, 3, 3, 2, 1]  # 카드 종류별 개수 (1, 2, 3, 4, 5)
 card_deck = [t for i, t in enumerate(list((f, n) for f in fruit for n in range(
     1, 6))) for c in range(card_count[i % 5])]  # 56장
