@@ -6,7 +6,7 @@ import time
 class Player:
     def __init__(self, player_name):
         self.player_name = player_name
-        self.suit = '바나나'
+        self.suit = 'banana'
         self.num = 0
         self.score = 0
 
@@ -17,7 +17,7 @@ class Player:
         self.suit, self.num = deck.pop(random.randint(0, len(card_deck) - 1))
 
     def clear(self):
-        self.suit = '바나나'
+        self.suit = 'banana'
         self.num = 0
 
 
@@ -27,13 +27,13 @@ def hg_check():
     for p in p_list:
         check[p.suit] += p.num
     if 5 in check.values():
-        if check['골드키위'] == 5:
+        if check['goldkiwi'] == 5:
             return 2  # Double
         return 1  # True
     return 0  # False
 
 
-fruit = ['바나나', '딸기', '블루베리', '골드키위']  # 과일 종류
+fruit = ['banana', 'strawberry', 'blueberry', 'goldkiwi']  # 과일 종류
 card_count = [5, 3, 3, 2, 1]  # 카드 종류별 개수 (1, 2, 3, 4, 5)
 card_deck = [t for i, t in enumerate(list((f, n) for f in fruit for n in range(
     1, 6))) for c in range(card_count[i % 5])]  # 56장
@@ -86,7 +86,7 @@ while len(card_deck) > 0:
             p_list[bell_p].score -= 3
         print(f"p1: {p_list[0].score}, p2: {p_list[1].score}")
 
-win_check = {p.player_name: p.score for p in p_list}
-player_list = [p for p in win_check.keys() if win_check[p] ==
-               max(win_check.values())]
+score_check = {p.player_name: p.score for p in p_list}
+player_list = [p for p in score_check.keys() if score_check[p] ==
+               max(score_check.values())]
 print(", ".join(player_list) + " win!")
