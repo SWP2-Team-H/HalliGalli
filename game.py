@@ -4,14 +4,14 @@ import time
 
 
 class Player:
-    def __init__(self, player_name):
-        self.player_name = player_name
+    def __init__(self, name):
+        self.name = name
         self.suit = 'banana'
         self.num = 0
         self.score = 0
 
     def __str__(self):
-        return self.player_name + ': ' + '(' + self.suit + ',' + str(self.num) + ')'
+        return self.name + ': ' + '(' + self.suit + ',' + str(self.num) + ')'
 
     def draw(self, deck):
         self.suit, self.num = deck.pop(random.randint(0, len(card_deck) - 1))
@@ -22,7 +22,6 @@ class Player:
 
 
 def hg_check():
-    # global p_list
     check = {key: 0 for key in fruit}
     for p in p_list:
         check[p.suit] += p.num
@@ -33,6 +32,13 @@ def hg_check():
     return 0  # False
 
 
+def print_score(p_list):
+    score_string = []
+    for p in p_list:
+        score_string.append(p.name + ": " + str(p.score))
+    print(", ".join(score_string))
+
+
 fruit = ['banana', 'strawberry', 'blueberry', 'goldkiwi']  # 과일 종류
 card_count = [5, 3, 3, 2, 1]  # 카드 종류별 개수 (1, 2, 3, 4, 5)
 card_deck = [t for i, t in enumerate(list((f, n) for f in fruit for n in range(
@@ -40,6 +46,7 @@ card_deck = [t for i, t in enumerate(list((f, n) for f in fruit for n in range(
 
 
 print(card_deck)
+
 print(len(card_deck))
 
 p_num = int(input('플레이어 수를 입력하세요: '))
@@ -56,9 +63,9 @@ for i in range(p_num):
 
 card_stack = 0  # 쌓인 카드 - > 점수
 hg = False  # 현재 상태가 할리갈리 상태인지 아닌지
+bell_on = False  # 벨 활성화
 t = 0
 while len(card_deck) > 0:
-    print("Turn", t, end="   ")
     ##################################
     # 키보드 입력 부분 -> pygame 연계하면 바뀔 듯
     while True:
@@ -68,25 +75,33 @@ while len(card_deck) > 0:
             break
     ##################################
     if key == draw_key[t % p_num]:  # 카드 뽑기
+        print("Turn", t + 1, end="   ")
         card_stack += 1
         p_list[t % p_num].draw(card_deck)
         print(p_list[t % p_num], card_stack)
         t += 1
-    elif key in bell_key:  # 플레이어 1번 종
+        bell_on = True
+    elif key in bell_key and bell_on:  # 플레이어 1번 종
         bell_p = bell_key.index(key)
         if hg_check() == 2:
             card_stack *= 2
             print("2배! ", end="")
         if hg_check():
+            print(f"{p_list[bell_p].name} Yummy!")
             p_list[bell_p].score += card_stack
             card_stack = 0
             for p in p_list:
                 p.clear()
         else:
+            print(f"{p_list[bell_p].name} Oops!")
             p_list[bell_p].score -= 3
-        print(f"p1: {p_list[0].score}, p2: {p_list[1].score}")
+        print_score(p_list)
+        bell_on = False
+    else:
+        continue
 
-score_check = {p.player_name: p.score for p in p_list}
+score_check = {p.name: p.score for p in p_list}
 player_list = [p for p in score_check.keys() if score_check[p] ==
                max(score_check.values())]
-print(", ".join(player_list) + " win!")
+print_score(p_list)
+print(", ".join(player_list) + " Win!")
