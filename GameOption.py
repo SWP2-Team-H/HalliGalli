@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt
 from PyQt5 import QtGui
 
+import display
 
 class GameOption(QWidget):
     def __init__(self):
@@ -87,21 +88,21 @@ class GameOption(QWidget):
         self.show()
 
         # 버튼 연결
-        option1Btn.clicked.connect(self.option3BtnClicked)
+        option1Btn.clicked.connect(self.option1BtnClicked)
         option2Btn.clicked.connect(self.option2BtnClicked)
         option3Btn.clicked.connect(self.option3BtnClicked)
         
     # 옵션1 버튼 클릭시 실행될 함수  
     def option1BtnClicked(self):
-        pass
+        display.Display()
     
     # 옵션2 버튼 클릭시 실행될 함수  
     def option2BtnClicked(self):
-        pass
+        display.Display()
         
     # 옵션3 버튼 클릭시 실행될 함수  
     def option3BtnClicked(self):
-        pass
+        display.Display()
         
 if __name__ == '__main__':    
     app = QApplication(sys.argv)
