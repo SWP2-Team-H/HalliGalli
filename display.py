@@ -6,11 +6,9 @@ from pygame.locals import *
 from setting import *
 from game import *
 
-# 기능 시작
-
-
 class Display():
     def __init__(self):
+        # 기능 시작
         pg.init()
         super().__init__()
 
@@ -31,13 +29,13 @@ class Display():
         player1 = font.render("플레이어1 : ", True, BLACK)
         Display.blit(player1, (100, 200))
 
-        p1_score = font.render("점수 : ", True, BLACK)
+        p1_score = font.render("점수 : 0", True, BLACK)
         Display.blit(p1_score, (100, 300))
 
         player2 = font.render("플레이어2 : ", True, BLACK)
         Display.blit(player2, (width - 700, 200))
 
-        p2_score = font.render("점수 : ", True, BLACK)
+        p2_score = font.render("점수 : 0", True, BLACK)
         Display.blit(p2_score, (width - 700, 300))
 
         mc = font.render("사회자 : ", True, BLACK)
@@ -120,6 +118,14 @@ class Display():
                             p_list[bell_p].score -= 3
                         # print_score(p_list)
                         bell_on = False
+                        score1 = pg.draw.rect(
+                                Display, WHITE, (100, 300, 400, 100))
+                        player1 = font.render("점수 : " + str(p_list[0].score), True, BLACK)
+                        Display.blit(player1, (100, 300))
+                        score2 = pg.draw.rect(
+                                Display, WHITE, (width - 700, 300, 400, 100))
+                        player2 = font.render("점수 : " + str(p_list[1].score), True, BLACK)
+                        Display.blit(player2, (width - 700, 300))
                     else:
                         continue
                     pg.display.update()
@@ -129,3 +135,6 @@ class Display():
                     if event.key == pg.K_ESCAPE:
                         pg.quit()
                         sys.exit()
+
+if __name__ == '__main__':
+    Display()
