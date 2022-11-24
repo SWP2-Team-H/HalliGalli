@@ -73,6 +73,7 @@ class Display():
         bell_on = False  # 벨 활성화
         t = 0
 
+        pg.display.update()
         while len(card_deck) > 0:
             for event in pg.event.get():
                 if (event.type == KEYUP):  # ESC 누르면 종료하도록 설정
@@ -110,6 +111,10 @@ class Display():
                             card_stack = 0
                             for p in p_list:
                                 p.clear()
+                            deck1_clear = pg.draw.rect(
+                                Display, WHITE, (240, 475, 420, 300))
+                            deck2_clear = pg.draw.rect(
+                                Display, WHITE, (width - (265 + 380), 475, 420, 300))
                         else:
                             # print(f"{p_list[bell_p].name} Oops!")
                             p_list[bell_p].score -= 3
