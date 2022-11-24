@@ -7,18 +7,20 @@ from setting import *
 from game import *
 
 # 기능 시작
-class Display() :
-    def __init__(self) :
+
+
+class Display():
+    def __init__(self):
         pg.init()
         super().__init__()
 
         # 게임 창 설정
         user32 = ctypes.windll.user32
-        screensize = user32.GetSystemMetrics(0), user32.GetSystemMetrics(1) 
+        screensize = user32.GetSystemMetrics(0), user32.GetSystemMetrics(1)
         width = user32.GetSystemMetrics(0)
-        height = user32.GetSystemMetrics(1) 
+        height = user32.GetSystemMetrics(1)
         Display = pg.display.set_mode(screensize, FULLSCREEN)
-        Display.fill(WHITE) 
+        Display.fill(WHITE)
 
         # 글자 설정
         font = pg.font.Font("src/font/EF_hyunygothic.ttf", 45)
@@ -59,22 +61,71 @@ class Display() :
         deck_r = pg.transform.rotate(deck_r, 90)
         Display.blit(deck_r, [width - 190, 500])
 
-        while True:
+        # 게임 기본 설정
+        p_list = [Player("a"), Player("b")]  # 나중에 PyQt 연계해서 정보 가져오기
+        p_num = len(p_list)
+
+        draw_key = [pg.K_a, pg.K_l]  # draw key
+        bell_key = [pg.K_s, pg.K_k]  # bell key
+
+        card_stack = 0  # 쌓인 카드 - > 점수
+        hg = False  # 현재 상태가 할리갈리 상태인지 아닌지
+        bell_on = False  # 벨 활성화
+        t = 0
+
+        pg.display.update()
+        while len(card_deck) > 0:
             for event in pg.event.get():
-                if (event.type == KEYUP) :  # ESC 누르면 종료하도록 설정
-                    if event.key == pg.K_ESCAPE :
+                if (event.type == KEYUP):  # ESC 누르면 종료하도록 설정
+                    if event.key == pg.K_ESCAPE:
                         pg.quit()
                         sys.exit()
-                    elif event.key == pg.K_a :
-                        deck1 = pg.draw.rect(Display, BLACK, (255, 505, 390, 230))
-                        card1 = pg.image.load('src/img/'+fruit[0]+str(card_count[2])+'.png')
-                        card1 = pg.transform.rotate(card1, 270)
-                        Display.blit(card1, [250, 500])
-                    elif event.key == pg.K_l :
-                        deck2 = pg.draw.rect(Display, BLACK, (width - (265 + 380), 505, 390, 230))
-                        card2 = pg.image.load('src/img/kiwi3.png')
-                        card2 = pg.transform.rotate(card2, 90)
-                        Display.blit(card2, [width - (250 + 380) , 500])
-
-            pg.display.update()
-
+                    elif event.key == draw_key[t % p_num]:  # 카드 뽑기
+                        card_stack += 1
+                        p_list[t % p_num].draw(card_deck)
+                        # print(p_list[t % p_num], card_stack)
+                        if t % p_num == 0:
+                            deck1 = pg.draw.rect(
+                                Display, BLACK, (255, 505, 390, 230))
+                            card1 = pg.image.load(
+                                'src/img/' + p_list[t % p_num].suit + str(p_list[t % p_num].num) + '.png')
+                            card1 = pg.transform.rotate(card1, 270)
+                            Display.blit(card1, [250, 500])
+                        else:
+                            deck2 = pg.draw.rect(
+                                Display, BLACK, (width - (265 + 380), 505, 390, 230))
+                            card2 = pg.image.load(
+                                'src/img/' + p_list[t % p_num].suit + str(p_list[t % p_num].num) + '.png')
+                            card2 = pg.transform.rotate(card2, 90)
+                            Display.blit(card2, [width - (250 + 380), 500])
+                        t += 1
+                        bell_on = True
+                    elif event.key in bell_key and bell_on:  # 플레이어 1번 종
+                        bell_p = bell_key.index(event.key)
+                        if hg_check(p_list) == 2:
+                            card_stack *= 2
+                            # print("2배! ", end="")
+                        if hg_check(p_list):
+                            # print(f"{p_list[bell_p].name} Yummy!")
+                            p_list[bell_p].score += card_stack
+                            card_stack = 0
+                            for p in p_list:
+                                p.clear()
+                            deck1_clear = pg.draw.rect(
+                                Display, WHITE, (240, 475, 420, 300))
+                            deck2_clear = pg.draw.rect(
+                                Display, WHITE, (width - (265 + 380), 475, 420, 300))
+                        else:
+                            # print(f"{p_list[bell_p].name} Oops!")
+                            p_list[bell_p].score -= 3
+                        # print_score(p_list)
+                        bell_on = False
+                    else:
+                        continue
+                    pg.display.update()
+        while True:
+            for event in pg.event.get():
+                if (event.type == KEYUP):  # ESC 누르면 종료하도록 설정
+                    if event.key == pg.K_ESCAPE:
+                        pg.quit()
+                        sys.exit()
