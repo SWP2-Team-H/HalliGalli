@@ -5,7 +5,6 @@ from PyQt5 import QtGui
 
 import display
 
-
 class GameOption(QWidget):
     def __init__(self):
         super().__init__()
@@ -16,7 +15,7 @@ class GameOption(QWidget):
         titleText.setFont(QtGui.QFont('Helvetica', 26))
         contentText = QLabel(
             "플레이어의 이름과 게임 시간을 입력한 후 게임모드를 선택하세요\n플레이어2의 이름은 로컬 멀티 플레이모드의 경우에만 입력하세요")
-        soloPlay = QLabel("솔로 플레이")
+        soloText = QLabel("솔로 플레이")
         player1Text = QLabel("플레이어1")
         player2Text = QLabel("플레이어2")
 
@@ -44,7 +43,7 @@ class GameOption(QWidget):
         # 솔로 플레이
         hbox2 = QHBoxLayout()
         hbox2.addStretch(1)
-        hbox2.addWidget(soloPlay)
+        hbox2.addWidget(soloText)
 
         # 플레이어1 이름 라벨, 입력칸
         hbox3 = QHBoxLayout()
@@ -60,37 +59,38 @@ class GameOption(QWidget):
         
         # 플레이어1, 플레이어 2 수직 정렬
         vbox1 = QVBoxLayout()
+        # vbox1.addLayout(hbox2)
         vbox1.addLayout(hbox3)
         vbox1.addLayout(hbox4)
-
-        # 솔로 플레이 수평 정렬
-        hbox2 = QHBoxLayout()
-        hbox2.addStretch(1)
-        hbox2.addLayout(hbox2)
-        hbox2.addWidget(solo1Btn)
-        hbox2.addWidget(solo2Btn)
-        hbox2.addWidget(solo3Btn)
-        hbox2.addStretch(1)
 
         # 옵션 버튼 수직 정렬
         vbox2 = QVBoxLayout()
         vbox2.addWidget(option2Btn)
         vbox2.addWidget(option3Btn)
 
+        # 솔로 플레이 수평 정렬
+        hbox5 = QHBoxLayout()
+        hbox5.addStretch(1)
+        hbox5.addLayout(hbox2)
+        hbox5.addWidget(solo1Btn)
+        hbox5.addWidget(solo2Btn)
+        hbox5.addWidget(solo3Btn)
+        hbox5.addStretch(1)
+
         # 각 항목과 버튼 수평 정렬
-        hbox3 = QHBoxLayout()
-        hbox3.addStretch(1)
-        hbox3.addLayout(vbox1)
-        hbox3.addLayout(vbox2)
-        hbox3.addStretch(1)
+        hbox6 = QHBoxLayout()
+        hbox6.addStretch(1)
+        hbox6.addLayout(vbox1)
+        hbox6.addLayout(vbox2)
+        hbox6.addStretch(1)
 
         # 전체 레이아웃 수직 정렬
         vbox = QVBoxLayout()
         vbox.addStretch(1)
         vbox.addLayout(hbox0)
         vbox.addLayout(hbox1)
-        vbox.addLayout(hbox2)
-        vbox.addLayout(hbox3)
+        vbox.addLayout(hbox5)
+        vbox.addLayout(hbox6)
 
         self.setGeometry(300, 300, 500, 200)
         self.setWindowTitle('할리갈리')
