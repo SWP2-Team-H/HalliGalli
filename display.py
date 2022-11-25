@@ -41,9 +41,6 @@ class Display():
         mc = font.render("사회자 : ", True, BLACK)
         Display.blit(mc, (100, height - 150))
 
-        time_ = font.render("남은 시간 : ", True, BLACK)
-        Display.blit(time_, (width - 500, height - 150))
-
         # 종
         bell = pg.image.load('src/img/bell.png')
         bell = pg.transform.scale(bell, (200, 200))
