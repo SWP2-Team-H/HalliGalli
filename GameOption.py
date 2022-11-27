@@ -4,6 +4,8 @@ from PyQt5.QtCore import Qt
 from PyQt5 import QtGui
 
 import display
+import setting
+from game import *
 
 class GameOption(QWidget):
     def __init__(self):
@@ -25,8 +27,8 @@ class GameOption(QWidget):
         solo1Btn = QPushButton("EASY", self)
         solo2Btn = QPushButton("NORMAL", self)
         solo3Btn = QPushButton("HARD", self)
-        option2Btn = QPushButton("통신 멀티 플레이", self)
-        option3Btn = QPushButton("로컬 멀티 플레이", self)
+        option2Btn = QPushButton("로컬 멀티 플레이", self)
+        option3Btn = QPushButton("통신 멀티 플레이", self)
 
         # 게임 타이틀, 중앙정렬을 위해 hbox사용
         hbox0 = QHBoxLayout()
@@ -59,7 +61,6 @@ class GameOption(QWidget):
         
         # 플레이어1, 플레이어 2 수직 정렬
         vbox1 = QVBoxLayout()
-        # vbox1.addLayout(hbox2)
         vbox1.addLayout(hbox3)
         vbox1.addLayout(hbox4)
 
@@ -103,6 +104,12 @@ class GameOption(QWidget):
         solo3Btn.clicked.connect(self.solo3BtnClicked)
         option2Btn.clicked.connect(self.option2BtnClicked)
         option3Btn.clicked.connect(self.option3BtnClicked)
+    
+    def player1Name(self):
+        setting.p_list.append(Player(self.player1Edit.text()))
+
+    def player2Name(self):
+        setting.p_list.append(Player(self.player2Edit.text()))
 
     # 솔로1 버튼 클릭시 실행될 함수
     def solo1BtnClicked(self):
