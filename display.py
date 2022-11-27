@@ -5,7 +5,6 @@ import ctypes   # 해상도 구하는 모듈
 from pygame.locals import *
 from setting import *
 from game import *
-from GameOption import *
 
 
 class Display():
@@ -32,13 +31,13 @@ class Display():
         player1 = font.render("플레이어1 : " + p_list[0].name, True, BLACK)
         Display.blit(player1, (100, 200))
 
-        p1_score = font.render("점수 : " + str(setting.p_list[0].score), True, BLACK)
+        p1_score = font.render("점수 : 0", True, BLACK)
         Display.blit(p1_score, (100, 300))
 
         player2 = font.render("플레이어2 : " + p_list[1].name, True, BLACK)
         Display.blit(player2, (width - 700, 200))
 
-        p2_score = font.render("점수 : 0" + str(setting.p_list[1].score), True, BLACK)
+        p2_score = font.render("점수 : 0", True, BLACK)
         Display.blit(p2_score, (width - 700, 300))
 
         mc = font.render("사회자 : ", True, BLACK)
@@ -60,6 +59,7 @@ class Display():
         Display.blit(deck_r, [width - 190, 500])
 
         # 게임 기본 설정
+        p_list = [Player("a"), Player("b")]  # 나중에 PyQt 연계해서 정보 가져오기
         p_num = len(p_list)
 
         draw_key = [pg.K_a, pg.K_l]  # draw key
@@ -113,7 +113,9 @@ class Display():
                             deck2_clear = pg.draw.rect(
                                 Display, WHITE, (width - (265 + 380), 475, 420, 300))
                         else:
+                            # print(f"{p_list[bell_p].name} Oops!")
                             p_list[bell_p].score -= 3
+                        # print_score(p_list)
                         bell_on = False
                         score1 = pg.draw.rect(
                             Display, WHITE, (100, 300, 400, 100))
@@ -128,11 +130,6 @@ class Display():
                     else:
                         continue
                     pg.display.update()
-        if len(card_deck) == 0 :    # 실행 안 됨
-            Display.blit(mc, (100, height - 150))
-            mc_bg = pg.draw.rect(
-                                    Display, WHITE, (100, height-150, 800, 100))
-            mc = font.render("게임이 끝났습니다.", True, BLACK)
         while True:
             for event in pg.event.get():
                 if (event.type == KEYUP):  # ESC 누르면 종료하도록 설정
