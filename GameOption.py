@@ -2,10 +2,13 @@ import sys
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt
 from PyQt5 import QtGui
+from setting import *
+from game import *
 
 import display
 import setting
 from game import *
+
 
 class GameOption(QWidget):
     def __init__(self):
@@ -58,7 +61,7 @@ class GameOption(QWidget):
         hbox4.addStretch(1)
         hbox4.addWidget(player2Text)
         hbox4.addWidget(self.player2Edit)
-        
+
         # 플레이어1, 플레이어 2 수직 정렬
         vbox1 = QVBoxLayout()
         vbox1.addLayout(hbox3)
@@ -121,15 +124,20 @@ class GameOption(QWidget):
 
     # 솔로3 버튼 클릭시 실행될 함수
     def solo3BtnClicked(self):
-        display.Display() 
+        display.Display()
 
     # 옵션2 버튼 클릭시 실행될 함수
     def option2BtnClicked(self):
+        global p_list
+        p_list.clear()
+        p_list.append(Player(self.player1Edit.text()))
+        p_list.append(Player(self.player2Edit.text()))
         display.Display()
 
     # 옵션3 버튼 클릭시 실행될 함수
     def option3BtnClicked(self):
         display.Display()
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

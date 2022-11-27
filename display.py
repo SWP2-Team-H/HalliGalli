@@ -7,6 +7,7 @@ from setting import *
 from game import *
 from GameOption import *
 
+
 class Display():
     def __init__(self):
         # 기능 시작
@@ -20,6 +21,7 @@ class Display():
         height = user32.GetSystemMetrics(1)
         Display = pg.display.set_mode(screensize, FULLSCREEN)
         Display.fill(WHITE)
+        global p_list
 
         # 글자 설정
         font = pg.font.Font("src/font/EF_hyunygothic.ttf", 45)
@@ -27,13 +29,13 @@ class Display():
         gamemode = font.render("게임 모드 : ", True, BLACK)
         Display.blit(gamemode, (100, 100))
 
-        player1 = font.render("플레이어1 : ", True, BLACK)
+        player1 = font.render("플레이어1 : " + p_list[0].name, True, BLACK)
         Display.blit(player1, (100, 200))
 
         p1_score = font.render("점수 : " + str(setting.p_list[0].score), True, BLACK)
         Display.blit(p1_score, (100, 300))
 
-        player2 = font.render("플레이어2 : ", True, BLACK)
+        player2 = font.render("플레이어2 : " + p_list[1].name, True, BLACK)
         Display.blit(player2, (width - 700, 200))
 
         p2_score = font.render("점수 : 0" + str(setting.p_list[1].score), True, BLACK)
@@ -113,14 +115,16 @@ class Display():
                         else:
                             p_list[bell_p].score -= 3
                         bell_on = False
-                        score_bg = pg.draw.rect(
-                                Display, WHITE, (100, 300, 400, 100))
-                        # player1Score = font.render("점수 : " + str(p_list[0].score), True, BLACK)
-                        Display.blit(p1_score, (100, 300))
-                        score_bg = pg.draw.rect(
-                                Display, WHITE, (width - 700, 300, 400, 100))
-                        # player2Score = font.render("점수 : " + str(p_list[1].score), True, BLACK)
-                        Display.blit(p2_score, (width - 700, 300))
+                        score1 = pg.draw.rect(
+                            Display, WHITE, (100, 300, 400, 100))
+                        player1 = font.render(
+                            "점수 : " + str(p_list[0].score), True, BLACK)
+                        Display.blit(player1, (100, 300))
+                        score2 = pg.draw.rect(
+                            Display, WHITE, (width - 700, 300, 400, 100))
+                        player2 = font.render(
+                            "점수 : " + str(p_list[1].score), True, BLACK)
+                        Display.blit(player2, (width - 700, 300))
                     else:
                         continue
                     pg.display.update()
@@ -135,6 +139,7 @@ class Display():
                     if event.key == pg.K_ESCAPE:
                         pg.quit()
                         sys.exit()
+
 
 if __name__ == '__main__':
     Display()
