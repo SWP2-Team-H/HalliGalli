@@ -1,7 +1,7 @@
 import random
 import keyboard
 import time
-
+from threading import Timer
 
 class Player:
     def __init__(self, name):
@@ -49,7 +49,10 @@ print(card_deck)
 
 print(len(card_deck))
 
-p_num = int(input('플레이어 수를 입력하세요: '))
+d = int(input('난이도를 선택하세요(1 ~ 5): '))
+difficulty = [5, 4, 3, 2, 1]
+diff = difficulty[d - 1]
+p_num = 2
 
 p_list = []
 # p1 : draw - a, bell - s
@@ -57,22 +60,41 @@ p_list = []
 draw_key = ['a', 'l']
 bell_key = ['s', 'k']
 
-for i in range(p_num):
-    p_name = input('플레이어' + str(i + 1) + ' 이름: ')
-    p_list.append(Player(p_name))
+p_name = input('플레이어 이름: ')
+p_list.append(Player(p_name))
+p_list.append(Player('Computer'))
 
 card_stack = 0  # 쌓인 카드 - > 점수
 hg = False  # 현재 상태가 할리갈리 상태인지 아닌지
 bell_on = False  # 벨 활성화
-t = 0
+t = 1
 while len(card_deck) > 0:
     ##################################
     # 키보드 입력 부분 -> pygame 연계하면 바뀔 듯
     while True:
-        key = keyboard.read_key()
-        time.sleep(0.2)
-        if key in draw_key[t % p_num] or key in bell_key:
+        if hg_check():
+            now = time.time()
+            key = keyboard.read_key()
+            after = time.time()
+            if after - now > diff:
+                key = ""
+            if key == bell_key[0] or key == draw_key[0]:
+                time.sleep(0.2)
+                break
+            else:
+                key = bell_key[1]
+                time.sleep(0.2)
+                break
+        if t % p_num == 1:
+            time.sleep(0.5)
+            key = draw_key[1]
+            time.sleep(0.2)
             break
+        else:
+            key = keyboard.read_key()
+            time.sleep(0.2)
+            break
+        time.sleep(0.2)
     ##################################
     if key == draw_key[t % p_num]:  # 카드 뽑기
         print("Turn", t + 1, end="   ")
