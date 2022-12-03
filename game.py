@@ -1,6 +1,10 @@
 import random
-import keyboard
-import time
+
+
+fruit = ['banana', 'strawberry', 'blueberry', 'goldkiwi']  # 과일 종류
+card_count = [5, 3, 3, 2, 1]  # 카드 종류별 개수 (1, 2, 3, 4, 5)
+card_deck = [t for i, t in enumerate(list((f, n) for f in fruit for n in range(
+    1, 6))) for c in range(card_count[i % 5])]  # 56장
 
 
 class Player:
@@ -37,9 +41,3 @@ def print_score(p_list):
     for p in p_list:
         score_string.append(p.name + ": " + str(p.score))
     print(", ".join(score_string))
-
-
-fruit = ['banana', 'strawberry', 'blueberry', 'goldkiwi']  # 과일 종류
-card_count = [5, 3, 3, 2, 1]  # 카드 종류별 개수 (1, 2, 3, 4, 5)
-card_deck = [t for i, t in enumerate(list((f, n) for f in fruit for n in range(
-    1, 6))) for c in range(card_count[i % 5])]  # 56장
