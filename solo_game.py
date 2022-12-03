@@ -3,6 +3,7 @@ import keyboard
 import time
 from threading import Timer
 
+
 class Player:
     def __init__(self, name):
         self.name = name
