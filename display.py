@@ -83,6 +83,10 @@ class Display():
                                 'src/img/' + p_list[cur].suit + str(p_list[cur].num) + '.png')
                             card1 = pg.transform.rotate(card1, 270)
                             Display.blit(card1, P1_CARD)
+                            mcbox = pg.draw.rect(
+                            Display, WHITE, (100, height - 150, 700, 100))
+                            mc = font.render("사회자 :   "+p_list[1].name+"   Turn!", True, BLACK)
+                            Display.blit(mc, (100, height - 150))
                         else:
                             deck2 = pg.draw.rect(
                                 Display, BLACK, P2_DECK)
@@ -90,6 +94,10 @@ class Display():
                                 'src/img/' + p_list[cur].suit + str(p_list[cur].num) + '.png')
                             card2 = pg.transform.rotate(card2, 90)
                             Display.blit(card2, P2_CARD)
+                            mcbox = pg.draw.rect(
+                            Display, WHITE, (100, height - 150, 700, 100))
+                            mc = font.render("사회자 :   "+p_list[0].name+"   Turn!", True, BLACK)
+                            Display.blit(mc, (100, height - 150))
                         t += 1
                         bell_on = True
                     elif event.key in bell_key and bell_on:  # 플레이어 종
