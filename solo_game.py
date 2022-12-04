@@ -1,7 +1,7 @@
 import random
 import keyboard
 import time
-from threading import Timer
+import sys
 
 class Player:
     def __init__(self, name):
@@ -38,6 +38,25 @@ def print_score(p_list):
         score_string.append(p.name + ": " + str(p.score))
     print(", ".join(score_string))
 
+def readInput(timeout):
+
+    start_time = time.time()
+    input = ''
+    while True:
+        if keyboard.is_pressed("a"):
+            input = "a"
+            break
+        elif keyboard.is_pressed("s"):
+            input = "s"
+            break
+        if len(input) == 0 and (time.time() - start_time) > timeout:
+            break
+
+    if len(input) > 0:
+        return input
+    else:
+        return "k"
+
 
 fruit = ['banana', 'strawberry', 'blueberry', 'goldkiwi']  # 과일 종류
 card_count = [5, 3, 3, 2, 1]  # 카드 종류별 개수 (1, 2, 3, 4, 5)
@@ -73,16 +92,8 @@ while len(card_deck) > 0:
     # 키보드 입력 부분 -> pygame 연계하면 바뀔 듯
     while True:
         if hg_check():
-            now = time.time()
-            key = keyboard.read_key()
-            after = time.time()
-            if after - now > diff:
-                key = ""
-            if key == bell_key[0] or key == draw_key[0]:
-                time.sleep(0.2)
-                break
-            else:
-                key = bell_key[1]
+            key = readInput(diff)
+            if key in draw_key or key in bell_key:
                 time.sleep(0.2)
                 break
         if t % p_num == 1:
