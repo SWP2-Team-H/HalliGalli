@@ -59,7 +59,7 @@ class Display():
         Display.blit(deck_r, [width - 190, 500])
 
         # 게임 기본 설정
-        p_list = [Player("a"), Player("b")]  # 나중에 PyQt 연계해서 정보 가져오기
+        # p_list = [Player("a"), Player("b")]  # 나중에 PyQt 연계해서 정보 가져오기
         p_num = len(p_list)
 
         draw_key = [pg.K_a, pg.K_l]  # draw key
@@ -101,9 +101,15 @@ class Display():
                         bell_p = bell_key.index(event.key)
                         if hg_check(p_list) == 2:
                             card_stack *= 2
-                            # print("2배! ", end="")
+                            mcbox = pg.draw.rect(
+                            Display, WHITE, (100, height - 150, 400, 100))
+                            mc = font.render("사회자 : 2배!", True, BLACK)
+                            Display.blit(mc, (100, height - 150))
                         if hg_check(p_list):
-                            # print(f"{p_list[bell_p].name} Yummy!")
+                            mcbox = pg.draw.rect(
+                            Display, WHITE, (100, height - 150, 400, 100))
+                            mc = font.render("사회자 : "+p_list[bell_p].name+" Yummy!", True, BLACK)
+                            Display.blit(mc, (100, height - 150))
                             p_list[bell_p].score += card_stack
                             card_stack = 0
                             for p in p_list:
@@ -113,9 +119,11 @@ class Display():
                             deck2_clear = pg.draw.rect(
                                 Display, WHITE, (width - (265 + 380), 475, 420, 300))
                         else:
-                            # print(f"{p_list[bell_p].name} Oops!")
+                            mcbox = pg.draw.rect(
+                            Display, WHITE, (100, height - 150, 400, 100))
+                            mc = font.render("사회자 : "+p_list[bell_p].name+" Oops!", True, BLACK)
+                            Display.blit(mc, (100, height - 150))
                             p_list[bell_p].score -= 3
-                        # print_score(p_list)
                         bell_on = False
                         score1 = pg.draw.rect(
                             Display, WHITE, (100, 300, 400, 100))
