@@ -101,15 +101,17 @@ class Display():
                         bell_p = bell_key.index(event.key)
                         if hg_check(p_list) == 2:
                             card_stack *= 2
-                            mcbox = pg.draw.rect(
-                            Display, WHITE, (100, height - 150, 400, 100))
-                            mc = font.render("사회자 : 2배!", True, BLACK)
-                            Display.blit(mc, (100, height - 150))
                         if hg_check(p_list):
-                            mcbox = pg.draw.rect(
-                            Display, WHITE, (100, height - 150, 400, 100))
-                            mc = font.render("사회자 : "+p_list[bell_p].name+" Yummy!", True, BLACK)
-                            Display.blit(mc, (100, height - 150))
+                            if hg_check(p_list) == 2:
+                                mcbox = pg.draw.rect(
+                                Display, WHITE, (100, height - 150, 700, 100))
+                                mc = font.render("사회자 :   "+p_list[bell_p].name+"   2배!", True, BLACK)
+                                Display.blit(mc, (100, height - 150))
+                            else :
+                                mcbox = pg.draw.rect(
+                                Display, WHITE, (100, height - 150, 700, 100))
+                                mc = font.render("사회자 :   "+p_list[bell_p].name+"   Yummy!", True, BLACK)
+                                Display.blit(mc, (100, height - 150))
                             p_list[bell_p].score += card_stack
                             card_stack = 0
                             for p in p_list:
@@ -120,8 +122,8 @@ class Display():
                                 Display, WHITE, (width - (265 + 380), 475, 420, 300))
                         else:
                             mcbox = pg.draw.rect(
-                            Display, WHITE, (100, height - 150, 400, 100))
-                            mc = font.render("사회자 : "+p_list[bell_p].name+" Oops!", True, BLACK)
+                            Display, WHITE, (100, height - 150, 700, 100))
+                            mc = font.render("사회자 :   "+p_list[bell_p].name+"   Oops!", True, BLACK)
                             Display.blit(mc, (100, height - 150))
                             p_list[bell_p].score -= 3
                         bell_on = False
