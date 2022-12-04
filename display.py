@@ -34,7 +34,7 @@ class Display():
         p2_score = font.render("점수 : 0", True, BLACK)
         Display.blit(p2_score, (width - 700, 300))
 
-        mc = font.render("사회자 : ", True, BLACK)
+        mc = font.render("사회자 :   "+p_list[0].name+"   Turn!", True, BLACK)
         Display.blit(mc, (100, height - 150))
 
         # 종
