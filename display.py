@@ -1,7 +1,5 @@
 import sys
-import time
 import pygame as pg
-import ctypes   # 해상도 구하는 모듈
 from pygame.locals import *
 from setting import *
 from game import *
@@ -14,10 +12,6 @@ class Display():
         super().__init__()
 
         # 게임 창 설정
-        user32 = ctypes.windll.user32
-        screensize = user32.GetSystemMetrics(0), user32.GetSystemMetrics(1)
-        width = user32.GetSystemMetrics(0)
-        height = user32.GetSystemMetrics(1)
         Display = pg.display.set_mode(screensize, FULLSCREEN)
         Display.fill(WHITE)
         global p_list
@@ -66,7 +60,7 @@ class Display():
         bell_key = [pg.K_s, pg.K_k]  # bell key
 
         card_stack = 0  # 쌓인 카드 - > 점수
-        hg = False  # 현재 상태가 할리갈리 상태인지 아닌지
+        # hg = False  # 현재 상태가 할리갈리 상태인지 아닌지
         bell_on = False  # 벨 활성화
         t = 0
 
@@ -74,30 +68,31 @@ class Display():
         while len(card_deck) > 0:
             for event in pg.event.get():
                 if (event.type == KEYUP):  # ESC 누르면 종료하도록 설정
+                    cur = t % p_num
                     if event.key == pg.K_ESCAPE:
                         pg.quit()
                         sys.exit()
-                    elif event.key == draw_key[t % p_num]:  # 카드 뽑기
+                    elif event.key == draw_key[cur]:  # 카드 뽑기
                         card_stack += 1
-                        p_list[t % p_num].draw(card_deck)
+                        p_list[cur].draw(card_deck)
                         # print(p_list[t % p_num], card_stack)
                         if t % p_num == 0:
                             deck1 = pg.draw.rect(
-                                Display, BLACK, (255, 505, 390, 230))
+                                Display, BLACK, P1_DECK)
                             card1 = pg.image.load(
-                                'src/img/' + p_list[t % p_num].suit + str(p_list[t % p_num].num) + '.png')
+                                'src/img/' + p_list[cur].suit + str(p_list[cur].num) + '.png')
                             card1 = pg.transform.rotate(card1, 270)
-                            Display.blit(card1, [250, 500])
+                            Display.blit(card1, P1_CARD)
                         else:
                             deck2 = pg.draw.rect(
-                                Display, BLACK, (width - (265 + 380), 505, 390, 230))
+                                Display, BLACK, P2_DECK)
                             card2 = pg.image.load(
-                                'src/img/' + p_list[t % p_num].suit + str(p_list[t % p_num].num) + '.png')
+                                'src/img/' + p_list[cur].suit + str(p_list[cur].num) + '.png')
                             card2 = pg.transform.rotate(card2, 90)
-                            Display.blit(card2, [width - (250 + 380), 500])
+                            Display.blit(card2, P2_CARD)
                         t += 1
                         bell_on = True
-                    elif event.key in bell_key and bell_on:  # 플레이어 1번 종
+                    elif event.key in bell_key and bell_on:  # 플레이어 종
                         bell_p = bell_key.index(event.key)
                         if hg_check(p_list) == 2:
                             card_stack *= 2
@@ -117,9 +112,9 @@ class Display():
                             for p in p_list:
                                 p.clear()
                             deck1_clear = pg.draw.rect(
-                                Display, WHITE, (240, 475, 420, 300))
+                                Display, WHITE, P1_DECK_CLEAR)
                             deck2_clear = pg.draw.rect(
-                                Display, WHITE, (width - (265 + 380), 475, 420, 300))
+                                Display, WHITE, P2_DECK_CLEAR)
                         else:
                             mcbox = pg.draw.rect(
                             Display, WHITE, (100, height - 150, 700, 100))

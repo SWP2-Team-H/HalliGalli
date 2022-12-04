@@ -2,7 +2,6 @@ import sys
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt
 from PyQt5 import QtGui
-from setting import *
 from game import *
 
 import display
@@ -117,11 +116,12 @@ class GameOption(QWidget):
 
     # 옵션2 버튼 클릭시 실행될 함수
     def option2BtnClicked(self):
-        global p_list
+        from setting import p_list
         p_list.clear()
         p_list.append(Player(self.player1Edit.text()))
         p_list.append(Player(self.player2Edit.text()))
         display.Display()
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
