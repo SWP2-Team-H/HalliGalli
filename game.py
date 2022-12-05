@@ -36,8 +36,8 @@ def hg_check(p_list):
     return 0  # False
 
 
-def print_score(p_list):
-    score_string = []
-    for p in p_list:
-        score_string.append(p.name + ": " + str(p.score))
-    print(", ".join(score_string))
+def win_player(p_list):
+    score_check = {p.name: p.score for p in p_list}
+    player_list = [p for p in score_check.keys() if score_check[p] ==
+                   max(score_check.values())]
+    return ", ".join(player_list) + " 승리!" if len(player_list) < len(p_list) else " 비김!"
