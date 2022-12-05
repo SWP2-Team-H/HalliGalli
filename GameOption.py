@@ -5,6 +5,7 @@ from PyQt5 import QtGui
 from game import *
 
 import display
+import solo_display
 
 
 class GameOption(QWidget):
@@ -104,15 +105,27 @@ class GameOption(QWidget):
 
     # 솔로1 버튼 클릭시 실행될 함수
     def solo1BtnClicked(self):
-        display.Display()
+        from setting import p_list
+        p_list.clear()
+        p_list.append(Player(self.player1Edit.text()))
+        p_list.append(Player('Computer'))
+        solo_display.Display()
 
     # 솔로2 버튼 클릭시 실행될 함수
     def solo2BtnClicked(self):
-        display.Display()
+        from setting import p_list
+        p_list.clear()
+        p_list.append(Player(self.player1Edit.text()))
+        p_list.append(Player('Computer'))
+        solo_display.Display()
 
     # 솔로3 버튼 클릭시 실행될 함수
     def solo3BtnClicked(self):
-        display.Display()
+        from setting import p_list
+        p_list.clear()
+        p_list.append(Player(self.player1Edit.text()))
+        p_list.append(Player('Computer'))
+        solo_display.Display()
 
     # 옵션2 버튼 클릭시 실행될 함수
     def option2BtnClicked(self):
