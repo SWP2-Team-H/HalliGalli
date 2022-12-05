@@ -60,7 +60,6 @@ class Display():
         bell_key = [pg.K_s, pg.K_k]  # bell key
 
         card_stack = 0  # 쌓인 카드 - > 점수
-        # hg = False  # 현재 상태가 할리갈리 상태인지 아닌지
         bell_on = False  # 벨 활성화
         t = 0
 

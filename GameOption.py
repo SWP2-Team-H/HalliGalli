@@ -108,7 +108,7 @@ class GameOption(QWidget):
         from setting import p_list
         p_list.clear()
         p_list.append(Player(self.player1Edit.text()))
-        p_list.append(Player('Computer'))
+        p_list.append(Computer('Computer', 0.7))
         solo_display.Display()
 
     # 솔로2 버튼 클릭시 실행될 함수
@@ -116,7 +116,7 @@ class GameOption(QWidget):
         from setting import p_list
         p_list.clear()
         p_list.append(Player(self.player1Edit.text()))
-        p_list.append(Player('Computer'))
+        p_list.append(Computer('Computer', 0.5))
         solo_display.Display()
 
     # 솔로3 버튼 클릭시 실행될 함수
@@ -124,7 +124,7 @@ class GameOption(QWidget):
         from setting import p_list
         p_list.clear()
         p_list.append(Player(self.player1Edit.text()))
-        p_list.append(Player('Computer'))
+        p_list.append(Computer('Computer', 0.3))
         solo_display.Display()
 
     # 옵션2 버튼 클릭시 실행될 함수
