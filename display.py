@@ -3,6 +3,7 @@ import pygame as pg
 from pygame.locals import *
 from setting import *
 from game import *
+import time
 
 
 class Display():
@@ -19,7 +20,7 @@ class Display():
         # 글자 설정
         font = pg.font.Font("src/font/EF_hyunygothic.ttf", 45)
 
-        gamemode = font.render("게임 모드 : ", True, BLACK)
+        gamemode = font.render("게임 모드 : 로컬 멀티플레이", True, BLACK)
         Display.blit(gamemode, (100, 100))
 
         player1 = font.render("플레이어1 : " + p_list[0].name, True, BLACK)
@@ -53,7 +54,6 @@ class Display():
         Display.blit(deck_r, [width - 190, 500])
 
         # 게임 기본 설정
-        # p_list = [Player("a"), Player("b")]  # 나중에 PyQt 연계해서 정보 가져오기
         p_num = len(p_list)
 
         draw_key = [pg.K_a, pg.K_l]  # draw key
@@ -76,7 +76,7 @@ class Display():
                         card_stack += 1
                         p_list[cur].draw(card_deck)
                         # print(p_list[t % p_num], card_stack)
-                        if t % p_num == 0:
+                        if cur == 0:
                             deck1 = pg.draw.rect(
                                 Display, BLACK, P1_DECK)
                             card1 = pg.image.load(
@@ -84,8 +84,9 @@ class Display():
                             card1 = pg.transform.rotate(card1, 270)
                             Display.blit(card1, P1_CARD)
                             mcbox = pg.draw.rect(
-                            Display, WHITE, (100, height - 150, 700, 100))
-                            mc = font.render("사회자 :   "+p_list[1].name+"   Turn!", True, BLACK)
+                                Display, WHITE, (100, height - 150, 700, 100))
+                            mc = font.render(
+                                "사회자 :   "+p_list[(cur + 1) % 2].name+"   Turn!", True, BLACK)
                             Display.blit(mc, (100, height - 150))
                         else:
                             deck2 = pg.draw.rect(
@@ -95,27 +96,29 @@ class Display():
                             card2 = pg.transform.rotate(card2, 90)
                             Display.blit(card2, P2_CARD)
                             mcbox = pg.draw.rect(
-                            Display, WHITE, (100, height - 150, 700, 100))
-                            mc = font.render("사회자 :   "+p_list[0].name+"   Turn!", True, BLACK)
+                                Display, WHITE, (100, height - 150, 700, 100))
+                            mc = font.render(
+                                "사회자 :   "+p_list[(cur + 1) % 2].name+"   Turn!", True, BLACK)
                             Display.blit(mc, (100, height - 150))
                         t += 1
                         bell_on = True
                     elif event.key in bell_key and bell_on:  # 플레이어 종
                         bell_p = bell_key.index(event.key)
-                        if hg_check(p_list) == 2:
-                            card_stack *= 2
                         if hg_check(p_list):
                             if hg_check(p_list) == 2:
                                 mcbox = pg.draw.rect(
-                                Display, WHITE, (100, height - 150, 700, 100))
-                                mc = font.render("사회자 :   "+p_list[bell_p].name+"   2배!", True, BLACK)
+                                    Display, WHITE, (100, height - 150, 700, 100))
+                                mc = font.render(
+                                    "사회자 :   "+p_list[bell_p].name+"   2배!", True, BLACK)
                                 Display.blit(mc, (100, height - 150))
-                            else :
+                            else:
                                 mcbox = pg.draw.rect(
-                                Display, WHITE, (100, height - 150, 700, 100))
-                                mc = font.render("사회자 :   "+p_list[bell_p].name+"   Yummy!", True, BLACK)
+                                    Display, WHITE, (100, height - 150, 700, 100))
+                                mc = font.render(
+                                    "사회자 :   "+p_list[bell_p].name+"   Yummy!", True, BLACK)
                                 Display.blit(mc, (100, height - 150))
-                            p_list[bell_p].score += card_stack
+                            p_list[bell_p].score += card_stack * \
+                                hg_check(p_list)
                             card_stack = 0
                             for p in p_list:
                                 p.clear()
@@ -125,8 +128,9 @@ class Display():
                                 Display, WHITE, P2_DECK_CLEAR)
                         else:
                             mcbox = pg.draw.rect(
-                            Display, WHITE, (100, height - 150, 700, 100))
-                            mc = font.render("사회자 :   "+p_list[bell_p].name+"   Oops!", True, BLACK)
+                                Display, WHITE, (100, height - 150, 700, 100))
+                            mc = font.render(
+                                "사회자 :   "+p_list[bell_p].name+"   Oops!", True, BLACK)
                             Display.blit(mc, (100, height - 150))
                             p_list[bell_p].score -= 3
                         bell_on = False
@@ -143,6 +147,57 @@ class Display():
                     else:
                         continue
                     pg.display.update()
+        if hg_check(p_list):
+            end_count_start = time.time()
+            while time.time() - end_count_start <= 3:
+                if event.key in bell_key and bell_on:  # 플레이어 종
+                    bell_p = bell_key.index(event.key)
+                    if hg_check(p_list):
+                        if hg_check(p_list) == 2:
+                            mcbox = pg.draw.rect(
+                                Display, WHITE, (100, height - 150, 700, 100))
+                            mc = font.render(
+                                "사회자 :   "+p_list[bell_p].name+"   2배!", True, BLACK)
+                            Display.blit(mc, (100, height - 150))
+                        else:
+                            mcbox = pg.draw.rect(
+                                Display, WHITE, (100, height - 150, 700, 100))
+                            mc = font.render(
+                                "사회자 :   "+p_list[bell_p].name+"   Yummy!", True, BLACK)
+                            Display.blit(mc, (100, height - 150))
+                        p_list[bell_p].score += card_stack * hg_check(p_list)
+                        card_stack = 0
+                        for p in p_list:
+                            p.clear()
+                        deck1_clear = pg.draw.rect(
+                            Display, WHITE, P1_DECK_CLEAR)
+                        deck2_clear = pg.draw.rect(
+                            Display, WHITE, P2_DECK_CLEAR)
+                    else:
+                        mcbox = pg.draw.rect(
+                            Display, WHITE, (100, height - 150, 700, 100))
+                        mc = font.render(
+                            "사회자 :   "+p_list[bell_p].name+"   Oops!", True, BLACK)
+                        Display.blit(mc, (100, height - 150))
+                        p_list[bell_p].score -= 3
+                    bell_on = False
+                    score1 = pg.draw.rect(
+                        Display, WHITE, (100, 300, 400, 100))
+                    player1 = font.render(
+                        "점수 : " + str(p_list[0].score), True, BLACK)
+                    Display.blit(player1, (100, 300))
+                    score2 = pg.draw.rect(
+                        Display, WHITE, (width - 700, 300, 400, 100))
+                    player2 = font.render(
+                        "점수 : " + str(p_list[1].score), True, BLACK)
+                    Display.blit(player2, (width - 700, 300))
+                    pg.display.update()
+                    break
+        mcbox = pg.draw.rect(
+            Display, WHITE, (100, height - 150, 700, 100))
+        mc = font.render("사회자 :   " + win_player(p_list), True, BLACK)
+        Display.blit(mc, (100, height - 150))
+        pg.display.update()
         while True:
             for event in pg.event.get():
                 if (event.type == KEYUP):  # ESC 누르면 종료하도록 설정

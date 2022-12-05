@@ -59,6 +59,26 @@ def readInput(timeout):
         return "k"
 
 
+def readInput(timeout):
+
+    start_time = time.time()
+    input = ''
+    while True:
+        if keyboard.is_pressed("a"):
+            input = "a"
+            break
+        elif keyboard.is_pressed("s"):
+            input = "s"
+            break
+        if len(input) == 0 and (time.time() - start_time) > timeout:
+            break
+
+    if len(input) > 0:
+        return input
+    else:
+        return "k"
+
+
 fruit = ['banana', 'strawberry', 'blueberry', 'goldkiwi']  # 과일 종류
 card_count = [5, 3, 3, 2, 1]  # 카드 종류별 개수 (1, 2, 3, 4, 5)
 card_deck = [t for i, t in enumerate(list((f, n) for f in fruit for n in range(
