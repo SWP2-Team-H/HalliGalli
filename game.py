@@ -25,6 +25,12 @@ class Player:
         self.num = 0
 
 
+class Computer(Player):
+    def __init__(self, name, diff):
+        super().__init__(name)
+        self.diff = diff
+
+
 def hg_check(p_list):
     check = {key: 0 for key in fruit}
     for p in p_list:

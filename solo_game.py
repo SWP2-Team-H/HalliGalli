@@ -8,6 +8,7 @@ card_count = [5, 3, 3, 2, 1]  # 카드 종류별 개수 (1, 2, 3, 4, 5)
 card_deck = [t for i, t in enumerate(list((f, n) for f in fruit for n in range(
     1, 6))) for c in range(card_count[i % 5])]  # 56장
 
+
 class Player:
     def __init__(self, name):
         self.name = name
@@ -36,35 +37,31 @@ def hg_check(p_list):
         return 1  # True
     return 0  # False
 
+
 def win_player(p_list):
     score_check = {p.name: p.score for p in p_list}
     player_list = [p for p in score_check.keys() if score_check[p] ==
                    max(score_check.values())]
     return ", ".join(player_list) + " 승리!" if len(player_list) < len(p_list) else " 비김!"
 
-# def print_score(p_list):
-#     score_string = []
-#     for p in p_list:
-#         score_string.append(p.name + ": " + str(p.score))
-#     print(", ".join(score_string))
 
-def readInput(timeout):
-    start_time = time.time()
-    input = ''
-    while True:
-        if keyboard.is_pressed("a"):
-            input = "a"
-            break
-        elif keyboard.is_pressed("s"):
-            input = "s"
-            break
-        if len(input) == 0 and (time.time() - start_time) > timeout:
-            break
+# def readInput(timeout):
+#     start_time = time.time()
+#     input = ''
+#     while True:
+#         if keyboard.is_pressed("a"):
+#             input = "a"
+#             break
+#         elif keyboard.is_pressed("s"):
+#             input = "s"
+#             break
+#         if len(input) == 0 and (time.time() - start_time) > timeout:
+#             break
 
-    if len(input) > 0:
-        return input
-    else:
-        return "k"
+#     if len(input) > 0:
+#         return input
+#     else:
+#         return "k"
 
 # print(card_deck)
 
